@@ -1,0 +1,167 @@
+{
+  "fetch_date": "2026-03-27T15:10:00",
+  "source": "Public financial data aggregated from web sources",
+  "total_companies": 20,
+  "companies": [
+    {
+      "ticker": "NVDA",
+      "name": "NVIDIA Corporation",
+      "market_cap": 4104000000000,
+      "ttm_revenue": 130500000000,
+      "ttm_net_profit": 72800000000,
+      "price_change_12m": 45.1
+    },
+    {
+      "ticker": "AAPL",
+      "name": "Apple Inc.",
+      "market_cap": 3720000000000,
+      "ttm_revenue": 416160000000,
+      "ttm_net_profit": 93600000000,
+      "price_change_12m": -3.2
+    },
+    {
+      "ticker": "GOOGL",
+      "name": "Alphabet Inc.",
+      "market_cap": 3367000000000,
+      "ttm_revenue": 350000000000,
+      "ttm_net_profit": 73600000000,
+      "price_change_12m": 12.5
+    },
+    {
+      "ticker": "MSFT",
+      "name": "Microsoft Corporation",
+      "market_cap": 2675000000000,
+      "ttm_revenue": 305450000000,
+      "ttm_net_profit": 110000000000,
+      "price_change_12m": 8.3
+    },
+    {
+      "ticker": "AMZN",
+      "name": "Amazon.com Inc.",
+      "market_cap": 2158000000000,
+      "ttm_revenue": 575000000000,
+      "ttm_net_profit": 30400000000,
+      "price_change_12m": 15.7
+    },
+    {
+      "ticker": "META",
+      "name": "Meta Platforms Inc.",
+      "market_cap": 1341000000000,
+      "ttm_revenue": 164500000000,
+      "ttm_net_profit": 62300000000,
+      "price_change_12m": 68.2
+    },
+    {
+      "ticker": "BRK-B",
+      "name": "Berkshire Hathaway Inc.",
+      "market_cap": 1023000000000,
+      "ttm_revenue": 430000000000,
+      "ttm_net_profit": 96000000000,
+      "price_change_12m": 6.1
+    },
+    {
+      "ticker": "TSLA",
+      "name": "Tesla Inc.",
+      "market_cap": 1374000000000,
+      "ttm_revenue": 97700000000,
+      "ttm_net_profit": 7200000000,
+      "price_change_12m": -28.4
+    },
+    {
+      "ticker": "UNH",
+      "name": "UnitedHealth Group Inc.",
+      "market_cap": 238320000000,
+      "ttm_revenue": 400000000000,
+      "ttm_net_profit": 23200000000,
+      "price_change_12m": -42.5
+    },
+    {
+      "ticker": "JNJ",
+      "name": "Johnson & Johnson",
+      "market_cap": 583090000000,
+      "ttm_revenue": 89000000000,
+      "ttm_net_profit": 13500000000,
+      "price_change_12m": 2.1
+    },
+    {
+      "ticker": "XOM",
+      "name": "Exxon Mobil Corporation",
+      "market_cap": 707430000000,
+      "ttm_revenue": 340000000000,
+      "ttm_net_profit": 36000000000,
+      "price_change_12m": 18.2
+    },
+    {
+      "ticker": "JPM",
+      "name": "JPMorgan Chase & Co.",
+      "market_cap": 771760000000,
+      "ttm_revenue": 170000000000,
+      "ttm_net_profit": 49000000000,
+      "price_change_12m": 21.3
+    },
+    {
+      "ticker": "V",
+      "name": "Visa Inc.",
+      "market_cap": 575840000000,
+      "ttm_revenue": 36000000000,
+      "ttm_net_profit": 18500000000,
+      "price_change_12m": 9.8
+    },
+    {
+      "ticker": "PG",
+      "name": "Procter & Gamble Co.",
+      "market_cap": 333750000000,
+      "ttm_revenue": 87000000000,
+      "ttm_net_profit": 15400000000,
+      "price_change_12m": 4.2
+    },
+    {
+      "ticker": "MA",
+      "name": "Mastercard Inc.",
+      "market_cap": 436460000000,
+      "ttm_revenue": 27000000000,
+      "ttm_net_profit": 12500000000,
+      "price_change_12m": 10.5
+    },
+    {
+      "ticker": "HD",
+      "name": "The Home Depot Inc.",
+      "market_cap": 325020000000,
+      "ttm_revenue": 164000000000,
+      "ttm_net_profit": 15800000000,
+      "price_change_12m": -5.3
+    },
+    {
+      "ticker": "CVX",
+      "name": "Chevron Corporation",
+      "market_cap": 423000000000,
+      "ttm_revenue": 200000000000,
+      "ttm_net_profit": 26000000000,
+      "price_change_12m": 8.7
+    },
+    {
+      "ticker": "MRK",
+      "name": "Merck & Co. Inc.",
+      "market_cap": 297890000000,
+      "ttm_revenue": 65000000000,
+      "ttm_net_profit": 14500000000,
+      "price_change_12m": -18.2
+    },
+    {
+      "ticker": "ABBV",
+      "name": "AbbVie Inc.",
+      "market_cap": 375310000000,
+      "ttm_revenue": 58000000000,
+      "ttm_net_profit": 8600000000,
+      "price_change_12m": 3.8
+    },
+    {
+      "ticker": "KO",
+      "name": "The Coca-Cola Company",
+      "market_cap": 325200000000,
+      "ttm_revenue": 47000000000,
+      "ttm_net_profit": 11300000000,
+      "price_change_12m": 5.1
+    }
+  ]
+}
