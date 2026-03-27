@@ -290,19 +290,7 @@
             <div id="bubble-chart"></div>
             <div class="legend-info">
                 <div class="legend-item">
-                    <div class="legend-circle" style="background: linear-gradient(135deg, #00c853, #00e676);"></div>
-                    <span>Positive Performance (Green)</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-circle" style="background: rgba(255, 255, 255, 0.8);"></div>
-                    <span>Near Zero (White)</span>
-                </div>
-                <div class="legend-item">
-                    <div class="legend-circle" style="background: linear-gradient(135deg, #ff5252, #ff1744);"></div>
-                    <span>Negative Performance (Red)</span>
-                </div>
-                <div class="legend-item">
-                    <span style="font-size: 0.8em;">Bubble Size = Market Cap</span>
+                    <span style="font-size: 0.85em;">💡 Bubble Size = Market Cap | Color = 12M Price Change (see colorbar)</span>
                 </div>
             </div>
         </div>
@@ -367,56 +355,68 @@
             return (value / 1e12).toFixed(2) + 'T';
         }
         
-        // Get color based on price change
-        function getColor(priceChange) {
-            if (priceChange > 20) return 'rgba(0, 200, 83, 0.8)';
-            if (priceChange > 10) return 'rgba(0, 230, 118, 0.7)';
-            if (priceChange > 5) return 'rgba(100, 255, 150, 0.6)';
-            if (priceChange > 0) return 'rgba(200, 255, 200, 0.5)';
-            if (priceChange === 0) return 'rgba(255, 255, 255, 0.7)';
-            if (priceChange > -10) return 'rgba(255, 150, 150, 0.5)';
-            if (priceChange > -20) return 'rgba(255, 82, 82, 0.6)';
-            return 'rgba(255, 23, 68, 0.7)';
-        }
-        
         // Create bubble chart
         function createBubbleChart() {
             const xValues = companies.map(c => c.ttm_revenue / 1e9);
             const yValues = companies.map(c => c.ttm_net_profit / 1e9);
-            const sizes = companies.map(c => Math.sqrt(c.market_cap / 1e12) * 40);
-            const colors = companies.map(c => getColor(c.price_change_12m));
-            const names = companies.map(c => c.name);
-            const tickers = companies.map(c => c.ticker);
+            const sizes = companies.map(c => Math.log10(c.market_cap / 1e9) * 8);
             const priceChanges = companies.map(c => c.price_change_12m);
             
             const trace = {
                 x: xValues,
                 y: yValues,
-                mode: 'markers',
+                mode: 'markers+text',
                 type: 'scatter',
-                text: companies.map(c => 
-                    `<b>${c.name}</b><br>` +
-                    `Ticker: ${c.ticker}<br>` +
-                    `Revenue: $${formatBillions(c.ttm_revenue)}<br>` +
-                    `Net Profit: $${formatBillions(c.ttm_net_profit)}<br>` +
-                    `Market Cap: $${formatTrillions(c.market_cap)}<br>` +
-                    `12M Change: ${c.price_change_12m > 0 ? '+' : ''}${c.price_change_12m.toFixed(1)}%`
-                ),
-                hoverinfo: 'text',
+                text: companies.map(c => c.ticker),
+                textposition: 'top center',
+                textfont: {color: '#fff', size: 11, family: 'monospace'},
+                hovertemplate: 
+                    '<b>%{text}</b><br>' +
+                    '%{customdata.name}<br>' +
+                    '<br>Revenue: $%{customdata.revenue}B<br>' +
+                    'Net Profit: $%{customdata.profit}B<br>' +
+                    'Market Cap: $%{customdata.mcap}T<br>' +
+                    '12M Change: %{customdata.change}%<extra></extra>',
+                customdata: companies.map(c => ({
+                    name: c.name,
+                    revenue: (c.ttm_revenue / 1e9).toFixed(1),
+                    profit: (c.ttm_net_profit / 1e9).toFixed(1),
+                    mcap: (c.market_cap / 1e12).toFixed(2),
+                    change: c.price_change_12m > 0 ? '+' + c.price_change_12m.toFixed(1) : c.price_change_12m.toFixed(1)
+                })),
                 marker: {
                     size: sizes,
-                    color: colors,
-                    line: {
-                        color: 'rgba(255, 255, 255, 0.3)',
-                        width: 1
+                    color: priceChanges,
+                    colorscale: [
+                        [-1, '#ff1744'],
+                        [-0.5, '#ff5252'],
+                        [-0.25, '#ff8a80'],
+                        [0, '#ffffff'],
+                        [0.25, '#a5d6a7'],
+                        [0.5, '#66bb6a'],
+                        [1, '#00c853']
+                    ],
+                    colorbar: {
+                        title: '12M Change %',
+                        titleside: 'right',
+                        titlefont: {color: '#a0a0a0', size: 12},
+                        tickfont: {color: '#a0a0a0'},
+                        len: 0.6,
+                        thickness: 20
                     },
-                    sizemode: 'diameter'
+                    line: {
+                        color: 'rgba(255, 255, 255, 0.5)',
+                        width: 1.5
+                    },
+                    sizemode: 'diameter',
+                    sizemin: 8,
+                    sizeref: 0.5
                 }
             };
             
             const layout = {
                 title: {
-                    text: 'Revenue vs Profit (Bubble Size = Market Cap)',
+                    text: 'TTM Revenue vs Net Profit (Bubble Size = Market Cap)',
                     font: {color: '#fff', size: 18}
                 },
                 xaxis: {
@@ -427,23 +427,13 @@
                 },
                 yaxis: {
                     title: {text: 'TTM Net Profit ($ Billions)', font: {color: '#a0a0a0'}},
-                    type: 'log',
                     gridcolor: 'rgba(255, 255, 255, 0.1)',
                     tickfont: {color: '#a0a0a0'}
                 },
                 paper_bgcolor: 'rgba(0,0,0,0)',
                 plot_bgcolor: 'rgba(0,0,0,0)',
                 hovermode: 'closest',
-                margin: {l: 80, r: 40, t: 60, b: 60},
-                annotations: companies.map(c => ({
-                    x: c.ttm_revenue / 1e9,
-                    y: c.ttm_net_profit / 1e9,
-                    text: c.ticker,
-                    showarrow: false,
-                    font: {color: '#fff', size: 10},
-                    xanchor: 'center',
-                    yanchor: 'bottom'
-                }))
+                margin: {l: 80, r: 100, t: 60, b: 60}
             };
             
             Plotly.newPlot('bubble-chart', [trace], layout, {responsive: true});
