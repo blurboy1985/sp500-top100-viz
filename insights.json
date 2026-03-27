@@ -1,50 +1,50 @@
 {
-  "generated_at": "2026-03-27T15:10:00",
+  "generated_at": "2026-03-28T05:50:00",
   "insights": [
     {
       "id": 1,
       "title": "Highest Profit Margin",
-      "company": "NVIDIA Corporation",
-      "ticker": "NVDA",
-      "value": "55.8%",
-      "detail": "NVIDIA Corporation leads with a 55.8% profit margin, converting $130.5B revenue into $72.8B profit."
+      "company": "Prologis Inc.",
+      "ticker": "PLD",
+      "value": "59.5%",
+      "detail": "Prologis Inc. leads with a 59.5% profit margin, converting $4.2B revenue into $2.5B profit."
     },
     {
       "id": 2,
       "title": "Lowest Profit Margin",
-      "company": "Amazon.com Inc.",
-      "ticker": "AMZN",
-      "value": "5.3%",
-      "detail": "Amazon.com Inc. has the lowest margin at 5.3%, with $575.0B revenue and $30.4B profit."
+      "company": "Intel Corporation",
+      "ticker": "INTC",
+      "value": "-31.0%",
+      "detail": "Intel Corporation has the lowest margin at -31.0%, with $54.8B revenue and $-17.0B profit."
     },
     {
       "id": 3,
       "title": "Top 5 by Market Cap",
       "companies": [
         {
-          "name": "NVIDIA Corporation",
-          "ticker": "NVDA",
-          "value": "$4.10T"
-        },
-        {
           "name": "Apple Inc.",
           "ticker": "AAPL",
-          "value": "$3.72T"
+          "value": "$3.40T"
         },
         {
-          "name": "Alphabet Inc.",
-          "ticker": "GOOGL",
-          "value": "$3.37T"
+          "name": "NVIDIA Corporation",
+          "ticker": "NVDA",
+          "value": "$3.10T"
         },
         {
           "name": "Microsoft Corporation",
           "ticker": "MSFT",
-          "value": "$2.67T"
+          "value": "$2.80T"
+        },
+        {
+          "name": "Alphabet Inc.",
+          "ticker": "GOOGL",
+          "value": "$2.10T"
         },
         {
           "name": "Amazon.com Inc.",
           "ticker": "AMZN",
-          "value": "$2.16T"
+          "value": "$1.90T"
         }
       ],
       "detail": "These five companies represent the largest valuations in the S&P 500, dominating the tech and finance sectors."
@@ -54,29 +54,29 @@
       "title": "Top 5 by TTM Revenue",
       "companies": [
         {
+          "name": "Walmart Inc.",
+          "ticker": "WMT",
+          "value": "$674B"
+        },
+        {
           "name": "Amazon.com Inc.",
           "ticker": "AMZN",
           "value": "$575B"
         },
         {
-          "name": "Berkshire Hathaway Inc.",
-          "ticker": "BRK-B",
-          "value": "$430B"
-        },
-        {
           "name": "Apple Inc.",
           "ticker": "AAPL",
-          "value": "$416B"
+          "value": "$383B"
         },
         {
           "name": "UnitedHealth Group Inc.",
           "ticker": "UNH",
-          "value": "$400B"
+          "value": "$372B"
         },
         {
-          "name": "Alphabet Inc.",
-          "ticker": "GOOGL",
-          "value": "$350B"
+          "name": "Berkshire Hathaway Inc.",
+          "ticker": "BRK-B",
+          "value": "$364B"
         }
       ],
       "detail": "Revenue leaders show the scale of operations across retail, tech, and energy sectors."
@@ -86,9 +86,9 @@
       "title": "Top 5 by Net Profit",
       "companies": [
         {
-          "name": "Microsoft Corporation",
-          "ticker": "MSFT",
-          "value": "$110B"
+          "name": "Apple Inc.",
+          "ticker": "AAPL",
+          "value": "$97B"
         },
         {
           "name": "Berkshire Hathaway Inc.",
@@ -96,9 +96,9 @@
           "value": "$96B"
         },
         {
-          "name": "Apple Inc.",
-          "ticker": "AAPL",
-          "value": "$94B"
+          "name": "Microsoft Corporation",
+          "ticker": "MSFT",
+          "value": "$88B"
         },
         {
           "name": "Alphabet Inc.",
@@ -116,52 +116,52 @@
     {
       "id": 6,
       "title": "Best 12-Month Performer",
-      "company": "Meta Platforms Inc.",
-      "ticker": "META",
-      "value": "+68.2%",
-      "detail": "Meta Platforms Inc. stock gained 68.2% over the past 12 months, the best performance among the top 20."
+      "company": "Eli Lilly and Company",
+      "ticker": "LLY",
+      "value": "+120.0%",
+      "detail": "Eli Lilly and Company stock gained 120.0% over the past 12 months, the best performance among the top 20."
     },
     {
       "id": 7,
       "title": "Worst 12-Month Performer",
-      "company": "UnitedHealth Group Inc.",
-      "ticker": "UNH",
-      "value": "-42.5%",
-      "detail": "UnitedHealth Group Inc. stock declined 42.5% over the past 12 months, reflecting sector or company-specific challenges."
+      "company": "Intel Corporation",
+      "ticker": "INTC",
+      "value": "-45.0%",
+      "detail": "Intel Corporation stock declined 45.0% over the past 12 months, reflecting sector or company-specific challenges."
     },
     {
       "id": 8,
-      "title": "Average Metrics (Top 20)",
+      "title": "Average Metrics (Top 100)",
       "metrics": {
-        "avg_market_cap": "$1.26T",
-        "avg_revenue": "$208B",
-        "avg_net_profit": "$40B",
-        "avg_profit_margin": "23.4%"
+        "avg_market_cap": "$0.32T",
+        "avg_revenue": "$80B",
+        "avg_net_profit": "$12B",
+        "avg_profit_margin": "18.9%"
       },
-      "detail": "The average top-20 S&P 500 company has a market cap of $1T+ and generates over $200B in annual revenue."
+      "detail": "The average top-100 S&P 500 company has significant market cap and generates substantial annual revenue."
     },
     {
       "id": 9,
       "title": "Revenue vs Market Cap Outliers",
       "high": {
-        "company": "UnitedHealth Group Inc.",
-        "ticker": "UNH",
-        "ratio": "1.678",
+        "company": "Ford Motor Company",
+        "ticker": "F",
+        "ratio": "4.400",
         "detail": "Higher ratio suggests undervaluation relative to revenue"
       },
       "low": {
-        "company": "NVIDIA Corporation",
-        "ticker": "NVDA",
-        "ratio": "0.032",
+        "company": "Axon Enterprise Inc.",
+        "ticker": "AXON",
+        "ratio": "0.026",
         "detail": "Lower ratio suggests premium valuation or lower revenue efficiency"
       },
       "detail": "Revenue-to-market-cap ratio highlights potential valuation anomalies. A higher ratio may indicate undervaluation."
     },
     {
       "id": 10,
-      "title": "Total Market Value of Top 20",
-      "value": "$25.16T",
-      "detail": "The combined market capitalization of the top 20 S&P 500 companies is $25.16 trillion, representing a significant portion of the entire index's value."
+      "title": "Total Market Value of Top 100",
+      "value": "$33.58T",
+      "detail": "The combined market capitalization of the top 100 S&P 500 companies is $33.58 trillion, representing a significant portion of the entire index's value."
     }
   ]
 }

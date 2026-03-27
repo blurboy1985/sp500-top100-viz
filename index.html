@@ -3,289 +3,84 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>S&P 500 Top 20 - Interactive Visualization</title>
+    <title>S&P 500 Top 100 - Interactive Visualization</title>
     <script src="https://cdn.plot.ly/plotly-2.27.0.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
-            color: #e8e8e8;
-            min-height: 100vh;
-            padding: 20px;
+            color: #e8e8e8; min-height: 100vh; padding: 20px;
         }
-        
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-        }
-        
-        header {
-            text-align: center;
-            padding: 30px 20px;
-            margin-bottom: 20px;
-        }
-        
-        h1 {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: #fff;
-            margin-bottom: 10px;
-        }
-        
-        .subtitle {
-            font-size: 1rem;
-            color: #a0a0a0;
-        }
-        
-        .date-info {
-            font-size: 0.85rem;
-            color: #6a6a6a;
-            margin-top: 5px;
-        }
-        
+        .container { max-width: 1400px; margin: 0 auto; }
+        header { text-align: center; padding: 30px 20px; margin-bottom: 20px; }
+        h1 { font-size: 2.5rem; font-weight: 700; color: #fff; margin-bottom: 10px; }
+        .subtitle { font-size: 1rem; color: #a0a0a0; }
+        .date-info { font-size: 0.85rem; color: #6a6a6a; margin-top: 5px; }
         .chart-container {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.05); border-radius: 16px;
+            padding: 20px; margin-bottom: 30px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
-        
-        #bubble-chart {
-            width: 100%;
-            height: 600px;
-        }
-        
+        #bubble-chart { width: 100%; height: 700px; }
         .legend-info {
-            display: flex;
-            justify-content: center;
-            gap: 30px;
-            margin-top: 15px;
-            font-size: 0.9rem;
-            color: #a0a0a0;
+            display: flex; justify-content: center; gap: 30px;
+            margin-top: 15px; font-size: 0.9rem; color: #a0a0a0;
         }
-        
-        .legend-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .legend-circle {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-        }
-        
+        .legend-item { display: flex; align-items: center; gap: 8px; }
         .insights-section {
-            background: rgba(255, 255, 255, 0.05);
-            border-radius: 16px;
-            padding: 30px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.05); border-radius: 16px;
+            padding: 30px; box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
         }
-        
-        .insights-header {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        
-        h2 {
-            font-size: 1.8rem;
-            color: #fff;
-        }
-        
+        .insights-header { text-align: center; margin-bottom: 30px; }
+        h2 { font-size: 1.8rem; color: #fff; }
         .insights-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px;
         }
-        
         .insight-card {
-            background: rgba(255, 255, 255, 0.08);
-            border-radius: 12px;
-            padding: 20px;
-            border-left: 4px solid;
-            transition: transform 0.2s, box-shadow 0.2s;
+            background: rgba(255, 255, 255, 0.08); border-radius: 12px; padding: 20px;
+            border-left: 4px solid; transition: transform 0.2s, box-shadow 0.2s;
         }
-        
-        .insight-card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4);
-        }
-        
-        .insight-card.positive {
-            border-left-color: #00c853;
-        }
-        
-        .insight-card.negative {
-            border-left-color: #ff5252;
-        }
-        
-        .insight-card.neutral {
-            border-left-color: #448aff;
-        }
-        
-        .insight-card.highlight {
-            border-left-color: #ffd700;
-        }
-        
-        .insight-number {
-            font-size: 0.75rem;
-            color: #6a6a6a;
-            margin-bottom: 5px;
-        }
-        
-        .insight-title {
-            font-size: 1.1rem;
-            font-weight: 600;
-            color: #fff;
-            margin-bottom: 10px;
-        }
-        
-        .insight-value {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #00c853;
-            margin-bottom: 10px;
-        }
-        
-        .insight-value.negative {
-            color: #ff5252;
-        }
-        
-        .insight-company {
-            font-size: 0.9rem;
-            color: #a0a0a0;
-            margin-bottom: 8px;
-        }
-        
-        .insight-detail {
-            font-size: 0.85rem;
-            color: #888;
-            line-height: 1.4;
-        }
-        
-        .insight-list {
-            list-style: none;
-            margin-top: 10px;
-        }
-        
+        .insight-card:hover { transform: translateY(-3px); box-shadow: 0 6px 15px rgba(0, 0, 0, 0.4); }
+        .insight-card.positive { border-left-color: #00c853; }
+        .insight-card.negative { border-left-color: #ff5252; }
+        .insight-card.neutral { border-left-color: #448aff; }
+        .insight-card.highlight { border-left-color: #ffd700; }
+        .insight-number { font-size: 0.75rem; color: #6a6a6a; margin-bottom: 5px; }
+        .insight-title { font-size: 1.1rem; font-weight: 600; color: #fff; margin-bottom: 10px; }
+        .insight-value { font-size: 1.5rem; font-weight: 700; color: #00c853; margin-bottom: 10px; }
+        .insight-value.negative { color: #ff5252; }
+        .insight-company { font-size: 0.9rem; color: #a0a0a0; margin-bottom: 8px; }
+        .insight-detail { font-size: 0.85rem; color: #888; line-height: 1.4; }
+        .insight-list { list-style: none; margin-top: 10px; }
         .insight-list li {
-            padding: 5px 0;
-            font-size: 0.85rem;
-            display: flex;
-            justify-content: space-between;
+            padding: 5px 0; font-size: 0.85rem; display: flex; justify-content: space-between;
         }
-        
-        .insight-list .company-name {
-            color: #a0a0a0;
-        }
-        
-        .insight-list .company-value {
-            color: #fff;
-            font-weight: 500;
-        }
-        
-        .metrics-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 10px;
-            margin-top: 10px;
-        }
-        
-        .metric-item {
-            text-align: center;
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-        }
-        
-        .metric-label {
-            font-size: 0.75rem;
-            color: #6a6a6a;
-        }
-        
-        .metric-value {
-            font-size: 1rem;
-            color: #fff;
-            font-weight: 600;
-        }
-        
-        .outlier-container {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-top: 10px;
-        }
-        
-        .outlier-box {
-            padding: 10px;
-            background: rgba(0, 0, 0, 0.2);
-            border-radius: 8px;
-        }
-        
-        .outlier-label {
-            font-size: 0.75rem;
-            color: #6a6a6a;
-        }
-        
-        .outlier-company {
-            font-size: 0.9rem;
-            color: #fff;
-        }
-        
-        .outlier-ratio {
-            font-size: 1rem;
-            font-weight: 600;
-            color: #448aff;
-        }
-        
-        footer {
-            text-align: center;
-            padding: 30px 20px;
-            margin-top: 20px;
-            color: #6a6a6a;
-            font-size: 0.85rem;
-        }
-        
+        .insight-list .company-name { color: #a0a0a0; }
+        .insight-list .company-value { color: #fff; font-weight: 500; }
+        .metrics-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 10px; }
+        .metric-item { text-align: center; padding: 10px; background: rgba(0, 0, 0, 0.2); border-radius: 8px; }
+        .metric-label { font-size: 0.75rem; color: #6a6a6a; }
+        .metric-value { font-size: 1rem; color: #fff; font-weight: 600; }
+        .outlier-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 10px; }
+        .outlier-box { padding: 10px; background: rgba(0, 0, 0, 0.2); border-radius: 8px; }
+        .outlier-label { font-size: 0.75rem; color: #6a6a6a; }
+        .outlier-company { font-size: 0.9rem; color: #fff; }
+        .outlier-ratio { font-size: 1rem; font-weight: 600; color: #448aff; }
+        footer { text-align: center; padding: 30px 20px; margin-top: 20px; color: #6a6a6a; font-size: 0.85rem; }
         @media (max-width: 768px) {
-            h1 {
-                font-size: 1.8rem;
-            }
-            
-            #bubble-chart {
-                height: 400px;
-            }
-            
-            .insights-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            .legend-info {
-                flex-direction: column;
-                gap: 10px;
-            }
-            
-            .outlier-container {
-                grid-template-columns: 1fr;
-            }
+            h1 { font-size: 1.8rem; } #bubble-chart { height: 400px; }
+            .insights-grid { grid-template-columns: 1fr; } .legend-info { flex-direction: column; gap: 10px; }
+            .outlier-container { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
     <div class="container">
         <header>
-            <h1>S&P 500 Top 20 Companies</h1>
+            <h1>S&P 500 Top 100 Companies</h1>
             <p class="subtitle">Interactive Bubble Chart Visualization</p>
             <p class="date-info">Data as of March 2026 | Market Cap, Revenue, Profit & 12-Month Performance</p>
         </header>
-        
         <div class="chart-container">
             <div id="bubble-chart"></div>
             <div class="legend-info">
@@ -294,68 +89,1017 @@
                 </div>
             </div>
         </div>
-        
         <div class="insights-section">
-            <div class="insights-header">
-                <h2>10 Key Findings</h2>
-            </div>
+            <div class="insights-header"><h2>10 Key Findings</h2></div>
             <div class="insights-grid" id="insights-grid"></div>
         </div>
-        
         <footer>
             <p>Data sourced from public financial reports | Visualization generated March 2026</p>
         </footer>
     </div>
-    
     <script>
-        // Embedded company data
         const companies = [
-            {ticker: "NVDA", name: "NVIDIA Corporation", market_cap: 4104000000000, ttm_revenue: 130500000000, ttm_net_profit: 72800000000, price_change_12m: 45.1},
-            {ticker: "AAPL", name: "Apple Inc.", market_cap: 3720000000000, ttm_revenue: 416160000000, ttm_net_profit: 93600000000, price_change_12m: -3.2},
-            {ticker: "GOOGL", name: "Alphabet Inc.", market_cap: 3367000000000, ttm_revenue: 350000000000, ttm_net_profit: 73600000000, price_change_12m: 12.5},
-            {ticker: "MSFT", name: "Microsoft Corporation", market_cap: 2675000000000, ttm_revenue: 305450000000, ttm_net_profit: 110000000000, price_change_12m: 8.3},
-            {ticker: "AMZN", name: "Amazon.com Inc.", market_cap: 2158000000000, ttm_revenue: 575000000000, ttm_net_profit: 30400000000, price_change_12m: 15.7},
-            {ticker: "META", name: "Meta Platforms Inc.", market_cap: 1341000000000, ttm_revenue: 164500000000, ttm_net_profit: 62300000000, price_change_12m: 68.2},
-            {ticker: "BRK-B", name: "Berkshire Hathaway Inc.", market_cap: 1023000000000, ttm_revenue: 430000000000, ttm_net_profit: 96000000000, price_change_12m: 6.1},
-            {ticker: "TSLA", name: "Tesla Inc.", market_cap: 1374000000000, ttm_revenue: 97700000000, ttm_net_profit: 7200000000, price_change_12m: -28.4},
-            {ticker: "UNH", name: "UnitedHealth Group Inc.", market_cap: 238320000000, ttm_revenue: 400000000000, ttm_net_profit: 23200000000, price_change_12m: -42.5},
-            {ticker: "JNJ", name: "Johnson & Johnson", market_cap: 583090000000, ttm_revenue: 89000000000, ttm_net_profit: 13500000000, price_change_12m: 2.1},
-            {ticker: "XOM", name: "Exxon Mobil Corporation", market_cap: 707430000000, ttm_revenue: 340000000000, ttm_net_profit: 36000000000, price_change_12m: 18.2},
-            {ticker: "JPM", name: "JPMorgan Chase & Co.", market_cap: 771760000000, ttm_revenue: 170000000000, ttm_net_profit: 49000000000, price_change_12m: 21.3},
-            {ticker: "V", name: "Visa Inc.", market_cap: 575840000000, ttm_revenue: 36000000000, ttm_net_profit: 18500000000, price_change_12m: 9.8},
-            {ticker: "PG", name: "Procter & Gamble Co.", market_cap: 333750000000, ttm_revenue: 87000000000, ttm_net_profit: 15400000000, price_change_12m: 4.2},
-            {ticker: "MA", name: "Mastercard Inc.", market_cap: 436460000000, ttm_revenue: 27000000000, ttm_net_profit: 12500000000, price_change_12m: 10.5},
-            {ticker: "HD", name: "The Home Depot Inc.", market_cap: 325020000000, ttm_revenue: 164000000000, ttm_net_profit: 15800000000, price_change_12m: -5.3},
-            {ticker: "CVX", name: "Chevron Corporation", market_cap: 423000000000, ttm_revenue: 200000000000, ttm_net_profit: 26000000000, price_change_12m: 8.7},
-            {ticker: "MRK", name: "Merck & Co. Inc.", market_cap: 297890000000, ttm_revenue: 65000000000, ttm_net_profit: 14500000000, price_change_12m: -18.2},
-            {ticker: "ABBV", name: "AbbVie Inc.", market_cap: 375310000000, ttm_revenue: 58000000000, ttm_net_profit: 8600000000, price_change_12m: 3.8},
-            {ticker: "KO", name: "The Coca-Cola Company", market_cap: 325200000000, ttm_revenue: 47000000000, ttm_net_profit: 11300000000, price_change_12m: 5.1}
-        ];
-        
-        // Embedded insights data
+        {
+                "ticker": "NVDA",
+                "name": "NVIDIA Corporation",
+                "market_cap": 3100000000000,
+                "ttm_revenue": 130500000000,
+                "ttm_net_profit": 72800000000,
+                "price_change_12m": 85.0
+        },
+        {
+                "ticker": "AAPL",
+                "name": "Apple Inc.",
+                "market_cap": 3400000000000,
+                "ttm_revenue": 383280000000,
+                "ttm_net_profit": 96995000000,
+                "price_change_12m": -2.1
+        },
+        {
+                "ticker": "GOOGL",
+                "name": "Alphabet Inc.",
+                "market_cap": 2100000000000,
+                "ttm_revenue": 339800000000,
+                "ttm_net_profit": 73790000000,
+                "price_change_12m": 18.5
+        },
+        {
+                "ticker": "MSFT",
+                "name": "Microsoft Corporation",
+                "market_cap": 2800000000000,
+                "ttm_revenue": 245100000000,
+                "ttm_net_profit": 88140000000,
+                "price_change_12m": 12.3
+        },
+        {
+                "ticker": "AMZN",
+                "name": "Amazon.com Inc.",
+                "market_cap": 1900000000000,
+                "ttm_revenue": 574800000000,
+                "ttm_net_profit": 30425000000,
+                "price_change_12m": 22.8
+        },
+        {
+                "ticker": "META",
+                "name": "Meta Platforms Inc.",
+                "market_cap": 1400000000000,
+                "ttm_revenue": 134900000000,
+                "ttm_net_profit": 46750000000,
+                "price_change_12m": 55.0
+        },
+        {
+                "ticker": "BRK-B",
+                "name": "Berkshire Hathaway Inc.",
+                "market_cap": 880000000000,
+                "ttm_revenue": 364500000000,
+                "ttm_net_profit": 96220000000,
+                "price_change_12m": 15.2
+        },
+        {
+                "ticker": "TSLA",
+                "name": "Tesla Inc.",
+                "market_cap": 780000000000,
+                "ttm_revenue": 97700000000,
+                "ttm_net_profit": 7200000000,
+                "price_change_12m": -35.0
+        },
+        {
+                "ticker": "UNH",
+                "name": "UnitedHealth Group Inc.",
+                "market_cap": 450000000000,
+                "ttm_revenue": 371600000000,
+                "ttm_net_profit": 23200000000,
+                "price_change_12m": -25.0
+        },
+        {
+                "ticker": "JNJ",
+                "name": "Johnson & Johnson",
+                "market_cap": 380000000000,
+                "ttm_revenue": 85000000000,
+                "ttm_net_profit": 13500000000,
+                "price_change_12m": -8.5
+        },
+        {
+                "ticker": "XOM",
+                "name": "Exxon Mobil Corporation",
+                "market_cap": 480000000000,
+                "ttm_revenue": 344600000000,
+                "ttm_net_profit": 36000000000,
+                "price_change_12m": 15.0
+        },
+        {
+                "ticker": "JPM",
+                "name": "JPMorgan Chase & Co.",
+                "market_cap": 580000000000,
+                "ttm_revenue": 169800000000,
+                "ttm_net_profit": 49550000000,
+                "price_change_12m": 28.5
+        },
+        {
+                "ticker": "V",
+                "name": "Visa Inc.",
+                "market_cap": 560000000000,
+                "ttm_revenue": 35930000000,
+                "ttm_net_profit": 19530000000,
+                "price_change_12m": 18.2
+        },
+        {
+                "ticker": "PG",
+                "name": "Procter & Gamble Co.",
+                "market_cap": 340000000000,
+                "ttm_revenue": 84040000000,
+                "ttm_net_profit": 15460000000,
+                "price_change_12m": 5.5
+        },
+        {
+                "ticker": "MA",
+                "name": "Mastercard Inc.",
+                "market_cap": 460000000000,
+                "ttm_revenue": 27220000000,
+                "ttm_net_profit": 12510000000,
+                "price_change_12m": 16.8
+        },
+        {
+                "ticker": "HD",
+                "name": "The Home Depot Inc.",
+                "market_cap": 320000000000,
+                "ttm_revenue": 157800000000,
+                "ttm_net_profit": 15800000000,
+                "price_change_12m": -3.2
+        },
+        {
+                "ticker": "CVX",
+                "name": "Chevron Corporation",
+                "market_cap": 280000000000,
+                "ttm_revenue": 196300000000,
+                "ttm_net_profit": 26000000000,
+                "price_change_12m": 8.5
+        },
+        {
+                "ticker": "MRK",
+                "name": "Merck & Co. Inc.",
+                "market_cap": 260000000000,
+                "ttm_revenue": 64000000000,
+                "ttm_net_profit": 14500000000,
+                "price_change_12m": -12.0
+        },
+        {
+                "ticker": "ABBV",
+                "name": "AbbVie Inc.",
+                "market_cap": 280000000000,
+                "ttm_revenue": 58230000000,
+                "ttm_net_profit": 8600000000,
+                "price_change_12m": 8.2
+        },
+        {
+                "ticker": "KO",
+                "name": "The Coca-Cola Company",
+                "market_cap": 250000000000,
+                "ttm_revenue": 47000000000,
+                "ttm_net_profit": 11300000000,
+                "price_change_12m": 6.5
+        },
+        {
+                "ticker": "PEP",
+                "name": "PepsiCo Inc.",
+                "market_cap": 230000000000,
+                "ttm_revenue": 92000000000,
+                "ttm_net_profit": 9600000000,
+                "price_change_12m": -5.0
+        },
+        {
+                "ticker": "COST",
+                "name": "Costco Wholesale Corp.",
+                "market_cap": 350000000000,
+                "ttm_revenue": 242200000000,
+                "ttm_net_profit": 6291000000,
+                "price_change_12m": 35.0
+        },
+        {
+                "ticker": "WMT",
+                "name": "Walmart Inc.",
+                "market_cap": 650000000000,
+                "ttm_revenue": 674400000000,
+                "ttm_net_profit": 19300000000,
+                "price_change_12m": 42.0
+        },
+        {
+                "ticker": "MCD",
+                "name": "McDonald's Corporation",
+                "market_cap": 200000000000,
+                "ttm_revenue": 26570000000,
+                "ttm_net_profit": 8500000000,
+                "price_change_12m": -8.0
+        },
+        {
+                "ticker": "TMO",
+                "name": "Thermo Fisher Scientific",
+                "market_cap": 210000000000,
+                "ttm_revenue": 42940000000,
+                "ttm_net_profit": 6100000000,
+                "price_change_12m": 5.5
+        },
+        {
+                "ticker": "ADBE",
+                "name": "Adobe Inc.",
+                "market_cap": 180000000000,
+                "ttm_revenue": 21500000000,
+                "ttm_net_profit": 5700000000,
+                "price_change_12m": 12.0
+        },
+        {
+                "ticker": "CSCO",
+                "name": "Cisco Systems Inc.",
+                "market_cap": 220000000000,
+                "ttm_revenue": 54950000000,
+                "ttm_net_profit": 10520000000,
+                "price_change_12m": -5.0
+        },
+        {
+                "ticker": "ACN",
+                "name": "Accenture plc",
+                "market_cap": 180000000000,
+                "ttm_revenue": 64900000000,
+                "ttm_net_profit": 7100000000,
+                "price_change_12m": 8.5
+        },
+        {
+                "ticker": "AVGO",
+                "name": "Broadcom Inc.",
+                "market_cap": 750000000000,
+                "ttm_revenue": 51580000000,
+                "ttm_net_profit": 13800000000,
+                "price_change_12m": 65.0
+        },
+        {
+                "ticker": "NKE",
+                "name": "NIKE Inc.",
+                "market_cap": 110000000000,
+                "ttm_revenue": 51360000000,
+                "ttm_net_profit": 5700000000,
+                "price_change_12m": -28.0
+        },
+        {
+                "ticker": "DHR",
+                "name": "Danaher Corporation",
+                "market_cap": 180000000000,
+                "ttm_revenue": 23890000000,
+                "ttm_net_profit": 4800000000,
+                "price_change_12m": 2.0
+        },
+        {
+                "ticker": "TXN",
+                "name": "Texas Instruments Inc.",
+                "market_cap": 170000000000,
+                "ttm_revenue": 18460000000,
+                "ttm_net_profit": 6500000000,
+                "price_change_12m": 15.0
+        },
+        {
+                "ticker": "LIN",
+                "name": "Linde plc",
+                "market_cap": 190000000000,
+                "ttm_revenue": 33000000000,
+                "ttm_net_profit": 6400000000,
+                "price_change_12m": 18.0
+        },
+        {
+                "ticker": "ORCL",
+                "name": "Oracle Corporation",
+                "market_cap": 380000000000,
+                "ttm_revenue": 54000000000,
+                "ttm_net_profit": 12500000000,
+                "price_change_12m": 45.0
+        },
+        {
+                "ticker": "WFC",
+                "name": "Wells Fargo & Co.",
+                "market_cap": 250000000000,
+                "ttm_revenue": 82000000000,
+                "ttm_net_profit": 19200000000,
+                "price_change_12m": 32.0
+        },
+        {
+                "ticker": "BAC",
+                "name": "Bank of America Corp.",
+                "market_cap": 320000000000,
+                "ttm_revenue": 98500000000,
+                "ttm_net_profit": 27150000000,
+                "price_change_12m": 28.0
+        },
+        {
+                "ticker": "ABT",
+                "name": "Abbott Laboratories",
+                "market_cap": 160000000000,
+                "ttm_revenue": 41950000000,
+                "ttm_net_profit": 5600000000,
+                "price_change_12m": 5.0
+        },
+        {
+                "ticker": "CRM",
+                "name": "Salesforce Inc.",
+                "market_cap": 260000000000,
+                "ttm_revenue": 34980000000,
+                "ttm_net_profit": 3100000000,
+                "price_change_12m": 25.0
+        },
+        {
+                "ticker": "DIS",
+                "name": "The Walt Disney Company",
+                "market_cap": 180000000000,
+                "ttm_revenue": 91360000000,
+                "ttm_net_profit": 4500000000,
+                "price_change_12m": -15.0
+        },
+        {
+                "ticker": "VZ",
+                "name": "Verizon Communications Inc.",
+                "market_cap": 160000000000,
+                "ttm_revenue": 134800000000,
+                "ttm_net_profit": 8500000000,
+                "price_change_12m": 8.0
+        },
+        {
+                "ticker": "CMCSA",
+                "name": "Comcast Corporation",
+                "market_cap": 140000000000,
+                "ttm_revenue": 124640000000,
+                "ttm_net_profit": 9500000000,
+                "price_change_12m": -5.0
+        },
+        {
+                "ticker": "AMD",
+                "name": "Advanced Micro Devices",
+                "market_cap": 200000000000,
+                "ttm_revenue": 25550000000,
+                "ttm_net_profit": 1600000000,
+                "price_change_12m": -18.0
+        },
+        {
+                "ticker": "INTC",
+                "name": "Intel Corporation",
+                "market_cap": 90000000000,
+                "ttm_revenue": 54800000000,
+                "ttm_net_profit": -17000000000,
+                "price_change_12m": -45.0
+        },
+        {
+                "ticker": "QCOM",
+                "name": "QUALCOMM Inc.",
+                "market_cap": 180000000000,
+                "ttm_revenue": 38960000000,
+                "ttm_net_profit": 10240000000,
+                "price_change_12m": 22.0
+        },
+        {
+                "ticker": "T",
+                "name": "AT&T Inc.",
+                "market_cap": 130000000000,
+                "ttm_revenue": 122400000000,
+                "ttm_net_profit": 8500000000,
+                "price_change_12m": 25.0
+        },
+        {
+                "ticker": "UBER",
+                "name": "Uber Technologies Inc.",
+                "market_cap": 150000000000,
+                "ttm_revenue": 39700000000,
+                "ttm_net_profit": 1500000000,
+                "price_change_12m": 35.0
+        },
+        {
+                "ticker": "NFLX",
+                "name": "Netflix Inc.",
+                "market_cap": 280000000000,
+                "ttm_revenue": 38800000000,
+                "ttm_net_profit": 7200000000,
+                "price_change_12m": 55.0
+        },
+        {
+                "ticker": "HON",
+                "name": "Honeywell International Inc.",
+                "market_cap": 130000000000,
+                "ttm_revenue": 38450000000,
+                "ttm_net_profit": 5600000000,
+                "price_change_12m": 5.0
+        },
+        {
+                "ticker": "UPS",
+                "name": "United Parcel Service Inc.",
+                "market_cap": 100000000000,
+                "ttm_revenue": 91160000000,
+                "ttm_net_profit": 6500000000,
+                "price_change_12m": -10.0
+        },
+        {
+                "ticker": "PM",
+                "name": "Philip Morris International",
+                "market_cap": 160000000000,
+                "ttm_revenue": 35200000000,
+                "ttm_net_profit": 11000000000,
+                "price_change_12m": 18.0
+        },
+        {
+                "ticker": "MS",
+                "name": "Morgan Stanley",
+                "market_cap": 160000000000,
+                "ttm_revenue": 61100000000,
+                "ttm_net_profit": 10500000000,
+                "price_change_12m": 35.0
+        },
+        {
+                "ticker": "GS",
+                "name": "The Goldman Sachs Group",
+                "market_cap": 150000000000,
+                "ttm_revenue": 53000000000,
+                "ttm_net_profit": 13200000000,
+                "price_change_12m": 42.0
+        },
+        {
+                "ticker": "CAT",
+                "name": "Caterpillar Inc.",
+                "market_cap": 160000000000,
+                "ttm_revenue": 67100000000,
+                "ttm_net_profit": 10500000000,
+                "price_change_12m": 25.0
+        },
+        {
+                "ticker": "BA",
+                "name": "The Boeing Company",
+                "market_cap": 120000000000,
+                "ttm_revenue": 78700000000,
+                "ttm_net_profit": -1800000000,
+                "price_change_12m": -8.0
+        },
+        {
+                "ticker": "GE",
+                "name": "General Electric Company",
+                "market_cap": 190000000000,
+                "ttm_revenue": 38600000000,
+                "ttm_net_profit": 4500000000,
+                "price_change_12m": 65.0
+        },
+        {
+                "ticker": "DE",
+                "name": "Deere & Company",
+                "market_cap": 100000000000,
+                "ttm_revenue": 53520000000,
+                "ttm_net_profit": 7500000000,
+                "price_change_12m": -15.0
+        },
+        {
+                "ticker": "SPGI",
+                "name": "S&P Global Inc.",
+                "market_cap": 130000000000,
+                "ttm_revenue": 14250000000,
+                "ttm_net_profit": 4100000000,
+                "price_change_12m": 15.0
+        },
+        {
+                "ticker": "BLK",
+                "name": "BlackRock Inc.",
+                "market_cap": 110000000000,
+                "ttm_revenue": 19750000000,
+                "ttm_net_profit": 5900000000,
+                "price_change_12m": 12.0
+        },
+        {
+                "ticker": "GILD",
+                "name": "Gilead Sciences Inc.",
+                "market_cap": 100000000000,
+                "ttm_revenue": 28600000000,
+                "ttm_net_profit": 4500000000,
+                "price_change_12m": 8.0
+        },
+        {
+                "ticker": "AXON",
+                "name": "Axon Enterprise Inc.",
+                "market_cap": 80000000000,
+                "ttm_revenue": 2100000000,
+                "ttm_net_profit": 150000000,
+                "price_change_12m": 45.0
+        },
+        {
+                "ticker": "ISRG",
+                "name": "Intuitive Surgical Inc.",
+                "market_cap": 150000000000,
+                "ttm_revenue": 8120000000,
+                "ttm_net_profit": 2200000000,
+                "price_change_12m": 22.0
+        },
+        {
+                "ticker": "SYK",
+                "name": "Stryker Corporation",
+                "market_cap": 130000000000,
+                "ttm_revenue": 20450000000,
+                "ttm_net_profit": 3700000000,
+                "price_change_12m": 8.0
+        },
+        {
+                "ticker": "BKNG",
+                "name": "Booking Holdings Inc.",
+                "market_cap": 110000000000,
+                "ttm_revenue": 18500000000,
+                "ttm_net_profit": 4100000000,
+                "price_change_12m": 15.0
+        },
+        {
+                "ticker": "ADP",
+                "name": "Automatic Data Processing",
+                "market_cap": 110000000000,
+                "ttm_revenue": 18750000000,
+                "ttm_net_profit": 4100000000,
+                "price_change_12m": 12.0
+        },
+        {
+                "ticker": "TJX",
+                "name": "The TJX Companies Inc.",
+                "market_cap": 130000000000,
+                "ttm_revenue": 56400000000,
+                "ttm_net_profit": 4500000000,
+                "price_change_12m": 18.0
+        },
+        {
+                "ticker": "LLY",
+                "name": "Eli Lilly and Company",
+                "market_cap": 750000000000,
+                "ttm_revenue": 45580000000,
+                "ttm_net_profit": 10500000000,
+                "price_change_12m": 120.0
+        },
+        {
+                "ticker": "ZTS",
+                "name": "Zoetis Inc.",
+                "market_cap": 80000000000,
+                "ttm_revenue": 9260000000,
+                "ttm_net_profit": 2500000000,
+                "price_change_12m": 15.0
+        },
+        {
+                "ticker": "REGN",
+                "name": "Regeneron Pharmaceuticals",
+                "market_cap": 100000000000,
+                "ttm_revenue": 14500000000,
+                "ttm_net_profit": 4500000000,
+                "price_change_12m": 5.0
+        },
+        {
+                "ticker": "VRTX",
+                "name": "Vertex Pharmaceuticals",
+                "market_cap": 110000000000,
+                "ttm_revenue": 10600000000,
+                "ttm_net_profit": 4200000000,
+                "price_change_12m": 18.0
+        },
+        {
+                "ticker": "PLD",
+                "name": "Prologis Inc.",
+                "market_cap": 100000000000,
+                "ttm_revenue": 4200000000,
+                "ttm_net_profit": 2500000000,
+                "price_change_12m": -5.0
+        },
+        {
+                "ticker": "AMT",
+                "name": "American Tower Corp.",
+                "market_cap": 90000000000,
+                "ttm_revenue": 11060000000,
+                "ttm_net_profit": 2600000000,
+                "price_change_12m": -8.0
+        },
+        {
+                "ticker": "CB",
+                "name": "Chubb Limited",
+                "market_cap": 90000000000,
+                "ttm_revenue": 46500000000,
+                "ttm_net_profit": 8500000000,
+                "price_change_12m": 12.0
+        },
+        {
+                "ticker": "SCHW",
+                "name": "Charles Schwab Corporation",
+                "market_cap": 130000000000,
+                "ttm_revenue": 19250000000,
+                "ttm_net_profit": 5500000000,
+                "price_change_12m": 25.0
+        },
+        {
+                "ticker": "MDLZ",
+                "name": "Mondelez International Inc.",
+                "market_cap": 80000000000,
+                "ttm_revenue": 36440000000,
+                "ttm_net_profit": 4600000000,
+                "price_change_12m": 8.0
+        },
+        {
+                "ticker": "TMUS",
+                "name": "T-Mobile US Inc.",
+                "market_cap": 260000000000,
+                "ttm_revenue": 80800000000,
+                "ttm_net_profit": 7800000000,
+                "price_change_12m": 45.0
+        },
+        {
+                "ticker": "FI",
+                "name": "Fiserv Inc.",
+                "market_cap": 90000000000,
+                "ttm_revenue": 19500000000,
+                "ttm_net_profit": 3800000000,
+                "price_change_12m": 22.0
+        },
+        {
+                "ticker": "AON",
+                "name": "Aon plc",
+                "market_cap": 80000000000,
+                "ttm_revenue": 14800000000,
+                "ttm_net_profit": 2800000000,
+                "price_change_12m": 15.0
+        },
+        {
+                "ticker": "CL",
+                "name": "Colgate-Palmolive Co.",
+                "market_cap": 70000000000,
+                "ttm_revenue": 20150000000,
+                "ttm_net_profit": 2800000000,
+                "price_change_12m": 8.0
+        },
+        {
+                "ticker": "EQIX",
+                "name": "Equinix Inc.",
+                "market_cap": 80000000000,
+                "ttm_revenue": 8600000000,
+                "ttm_net_profit": 750000000,
+                "price_change_12m": 12.0
+        },
+        {
+                "ticker": "ITW",
+                "name": "Illinois Tool Works Inc.",
+                "market_cap": 70000000000,
+                "ttm_revenue": 15980000000,
+                "ttm_net_profit": 3200000000,
+                "price_change_12m": 8.0
+        },
+        {
+                "ticker": "APD",
+                "name": "Air Products and Chemicals",
+                "market_cap": 60000000000,
+                "ttm_revenue": 12600000000,
+                "ttm_net_profit": 2800000000,
+                "price_change_12m": 5.0
+        },
+        {
+                "ticker": "CME",
+                "name": "CME Group Inc.",
+                "market_cap": 70000000000,
+                "ttm_revenue": 5600000000,
+                "ttm_net_profit": 3200000000,
+                "price_change_12m": 12.0
+        },
+        {
+                "ticker": "HCA",
+                "name": "HCA Healthcare Inc.",
+                "market_cap": 70000000000,
+                "ttm_revenue": 67000000000,
+                "ttm_net_profit": 4500000000,
+                "price_change_12m": 15.0
+        },
+        {
+                "ticker": "MU",
+                "name": "Micron Technology Inc.",
+                "market_cap": 110000000000,
+                "ttm_revenue": 25500000000,
+                "ttm_net_profit": 1500000000,
+                "price_change_12m": 35.0
+        },
+        {
+                "ticker": "PGR",
+                "name": "The Progressive Corp.",
+                "market_cap": 70000000000,
+                "ttm_revenue": 72500000000,
+                "ttm_net_profit": 6500000000,
+                "price_change_12m": 35.0
+        },
+        {
+                "ticker": "CSX",
+                "name": "CSX Corporation",
+                "market_cap": 60000000000,
+                "ttm_revenue": 14800000000,
+                "ttm_net_profit": 4800000000,
+                "price_change_12m": 8.0
+        },
+        {
+                "ticker": "NSC",
+                "name": "Norfolk Southern Corporation",
+                "market_cap": 50000000000,
+                "ttm_revenue": 12500000000,
+                "ttm_net_profit": 2800000000,
+                "price_change_12m": -5.0
+        },
+        {
+                "ticker": "WM",
+                "name": "Waste Management Inc.",
+                "market_cap": 70000000000,
+                "ttm_revenue": 22450000000,
+                "ttm_net_profit": 2800000000,
+                "price_change_12m": 18.0
+        },
+        {
+                "ticker": "FCX",
+                "name": "Freeport-McMoRan Inc.",
+                "market_cap": 60000000000,
+                "ttm_revenue": 24000000000,
+                "ttm_net_profit": 4500000000,
+                "price_change_12m": 25.0
+        },
+        {
+                "ticker": "EMR",
+                "name": "Emerson Electric Co.",
+                "market_cap": 60000000000,
+                "ttm_revenue": 19200000000,
+                "ttm_net_profit": 2600000000,
+                "price_change_12m": 12.0
+        },
+        {
+                "ticker": "SHW",
+                "name": "The Sherwin-Williams Co.",
+                "market_cap": 70000000000,
+                "ttm_revenue": 23200000000,
+                "ttm_net_profit": 2800000000,
+                "price_change_12m": 8.0
+        },
+        {
+                "ticker": "MCO",
+                "name": "Moody's Corporation",
+                "market_cap": 60000000000,
+                "ttm_revenue": 7200000000,
+                "ttm_net_profit": 2500000000,
+                "price_change_12m": 22.0
+        },
+        {
+                "ticker": "ICE",
+                "name": "Intercontinental Exchange",
+                "market_cap": 80000000000,
+                "ttm_revenue": 12600000000,
+                "ttm_net_profit": 3500000000,
+                "price_change_12m": 15.0
+        },
+        {
+                "ticker": "GD",
+                "name": "General Dynamics Corporation",
+                "market_cap": 70000000000,
+                "ttm_revenue": 41900000000,
+                "ttm_net_profit": 3500000000,
+                "price_change_12m": 12.0
+        },
+        {
+                "ticker": "ATVI",
+                "name": "Activision Blizzard Inc.",
+                "market_cap": 70000000000,
+                "ttm_revenue": 8800000000,
+                "ttm_net_profit": 2700000000,
+                "price_change_12m": 5.0
+        },
+        {
+                "ticker": "F",
+                "name": "Ford Motor Company",
+                "market_cap": 40000000000,
+                "ttm_revenue": 176000000000,
+                "ttm_net_profit": 4200000000,
+                "price_change_12m": -12.0
+        },
+        {
+                "ticker": "GM",
+                "name": "General Motors Company",
+                "market_cap": 50000000000,
+                "ttm_revenue": 171800000000,
+                "ttm_net_profit": 6200000000,
+                "price_change_12m": 15.0
+        },
+        {
+                "ticker": "TGT",
+                "name": "Target Corporation",
+                "market_cap": 60000000000,
+                "ttm_revenue": 106900000000,
+                "ttm_net_profit": 4200000000,
+                "price_change_12m": -18.0
+        },
+        {
+                "ticker": "DUK",
+                "name": "Duke Energy Corporation",
+                "market_cap": 70000000000,
+                "ttm_revenue": 29000000000,
+                "ttm_net_profit": 3800000000,
+                "price_change_12m": 8.0
+        },
+        {
+                "ticker": "SO",
+                "name": "Southern Company",
+                "market_cap": 60000000000,
+                "ttm_revenue": 29000000000,
+                "ttm_net_profit": 2800000000,
+                "price_change_12m": 5.0
+        },
+        {
+                "ticker": "BMY",
+                "name": "Bristol-Myers Squibb Co.",
+                "market_cap": 100000000000,
+                "ttm_revenue": 48200000000,
+                "ttm_net_profit": 8500000000,
+                "price_change_12m": -15.0
+        },
+        {
+                "ticker": "PNC",
+                "name": "The PNC Financial Services",
+                "market_cap": 60000000000,
+                "ttm_revenue": 20400000000,
+                "ttm_net_profit": 6500000000,
+                "price_change_12m": 18.0
+        },
+        {
+                "ticker": "USB",
+                "name": "U.S. Bancorp",
+                "market_cap": 60000000000,
+                "ttm_revenue": 27000000000,
+                "ttm_net_profit": 6800000000,
+                "price_change_12m": 22.0
+        },
+        {
+                "ticker": "TFC",
+                "name": "Truist Financial Corporation",
+                "market_cap": 50000000000,
+                "ttm_revenue": 22500000000,
+                "ttm_net_profit": 4500000000,
+                "price_change_12m": 12.0
+        }
+];
         const insights = [
-            {id: 1, title: "Highest Profit Margin", company: "NVIDIA Corporation", ticker: "NVDA", value: "55.8%", detail: "NVIDIA leads with 55.8% profit margin, converting $130.5B revenue into $72.8B profit.", type: "positive"},
-            {id: 2, title: "Lowest Profit Margin", company: "Amazon.com Inc.", ticker: "AMZN", value: "5.3%", detail: "Amazon has the lowest margin at 5.3%, with $575B revenue and $30.4B profit.", type: "negative"},
-            {id: 3, title: "Top 5 by Market Cap", companies: [{name: "NVIDIA", ticker: "NVDA", value: "$4.10T"}, {name: "Apple", ticker: "AAPL", value: "$3.72T"}, {name: "Alphabet", ticker: "GOOGL", value: "$3.37T"}, {name: "Microsoft", ticker: "MSFT", value: "$2.67T"}, {name: "Amazon", ticker: "AMZN", value: "$2.16T"}], detail: "Top 5 dominate tech sector valuations.", type: "highlight"},
-            {id: 4, title: "Top 5 by TTM Revenue", companies: [{name: "Amazon", ticker: "AMZN", value: "$575B"}, {name: "Berkshire", ticker: "BRK-B", value: "$430B"}, {name: "Apple", ticker: "AAPL", value: "$416B"}, {name: "UnitedHealth", ticker: "UNH", value: "$400B"}, {name: "Alphabet", ticker: "GOOGL", value: "$350B"}], detail: "Revenue leaders span retail, finance, and tech.", type: "neutral"},
-            {id: 5, title: "Top 5 by Net Profit", companies: [{name: "Microsoft", ticker: "MSFT", value: "$110B"}, {name: "Berkshire", ticker: "BRK-B", value: "$96B"}, {name: "Apple", ticker: "AAPL", value: "$94B"}, {name: "Alphabet", ticker: "GOOGL", value: "$74B"}, {name: "NVIDIA", ticker: "NVDA", value: "$73B"}], detail: "Most profitable companies in TTM period.", type: "positive"},
-            {id: 6, title: "Best 12-Month Performer", company: "Meta Platforms Inc.", ticker: "META", value: "+68.2%", detail: "Meta gained 68.2% over the past 12 months.", type: "positive"},
-            {id: 7, title: "Worst 12-Month Performer", company: "UnitedHealth Group", ticker: "UNH", value: "-42.5%", detail: "UnitedHealth declined 42.5% due to sector challenges.", type: "negative"},
-            {id: 8, title: "Average Metrics (Top 20)", metrics: {avg_market_cap: "$1.26T", avg_revenue: "$208B", avg_net_profit: "$40B", avg_profit_margin: "23.4%"}, detail: "Average top-20 company: $1T+ market cap, $200B+ revenue.", type: "neutral"},
-            {id: 9, title: "Revenue vs Market Cap Outliers", high: {company: "UnitedHealth", ticker: "UNH", ratio: "1.68", detail: "High ratio → potential undervaluation"}, low: {company: "NVIDIA", ticker: "NVDA", ratio: "0.032", detail: "Low ratio → premium valuation"}, detail: "Revenue-to-MCAP ratio analysis.", type: "neutral"},
-            {id: 10, title: "Total Market Value of Top 20", value: "$25.16T", detail: "Combined market cap of top 20 is $25.16 trillion.", type: "highlight"}
-        ];
-        
-        // Format helpers
-        function formatBillions(value) {
-            return (value / 1e9).toFixed(1) + 'B';
+        {
+                "id": 1,
+                "title": "Highest Profit Margin",
+                "company": "Prologis Inc.",
+                "ticker": "PLD",
+                "value": "59.5%",
+                "detail": "Prologis Inc. leads with a 59.5% profit margin, converting $4.2B revenue into $2.5B profit."
+        },
+        {
+                "id": 2,
+                "title": "Lowest Profit Margin",
+                "company": "Intel Corporation",
+                "ticker": "INTC",
+                "value": "-31.0%",
+                "detail": "Intel Corporation has the lowest margin at -31.0%, with $54.8B revenue and $-17.0B profit."
+        },
+        {
+                "id": 3,
+                "title": "Top 5 by Market Cap",
+                "companies": [
+                        {
+                                "name": "Apple Inc.",
+                                "ticker": "AAPL",
+                                "value": "$3.40T"
+                        },
+                        {
+                                "name": "NVIDIA Corporation",
+                                "ticker": "NVDA",
+                                "value": "$3.10T"
+                        },
+                        {
+                                "name": "Microsoft Corporation",
+                                "ticker": "MSFT",
+                                "value": "$2.80T"
+                        },
+                        {
+                                "name": "Alphabet Inc.",
+                                "ticker": "GOOGL",
+                                "value": "$2.10T"
+                        },
+                        {
+                                "name": "Amazon.com Inc.",
+                                "ticker": "AMZN",
+                                "value": "$1.90T"
+                        }
+                ],
+                "detail": "These five companies represent the largest valuations in the S&P 500, dominating the tech and finance sectors."
+        },
+        {
+                "id": 4,
+                "title": "Top 5 by TTM Revenue",
+                "companies": [
+                        {
+                                "name": "Walmart Inc.",
+                                "ticker": "WMT",
+                                "value": "$674B"
+                        },
+                        {
+                                "name": "Amazon.com Inc.",
+                                "ticker": "AMZN",
+                                "value": "$575B"
+                        },
+                        {
+                                "name": "Apple Inc.",
+                                "ticker": "AAPL",
+                                "value": "$383B"
+                        },
+                        {
+                                "name": "UnitedHealth Group Inc.",
+                                "ticker": "UNH",
+                                "value": "$372B"
+                        },
+                        {
+                                "name": "Berkshire Hathaway Inc.",
+                                "ticker": "BRK-B",
+                                "value": "$364B"
+                        }
+                ],
+                "detail": "Revenue leaders show the scale of operations across retail, tech, and energy sectors."
+        },
+        {
+                "id": 5,
+                "title": "Top 5 by Net Profit",
+                "companies": [
+                        {
+                                "name": "Apple Inc.",
+                                "ticker": "AAPL",
+                                "value": "$97B"
+                        },
+                        {
+                                "name": "Berkshire Hathaway Inc.",
+                                "ticker": "BRK-B",
+                                "value": "$96B"
+                        },
+                        {
+                                "name": "Microsoft Corporation",
+                                "ticker": "MSFT",
+                                "value": "$88B"
+                        },
+                        {
+                                "name": "Alphabet Inc.",
+                                "ticker": "GOOGL",
+                                "value": "$74B"
+                        },
+                        {
+                                "name": "NVIDIA Corporation",
+                                "ticker": "NVDA",
+                                "value": "$73B"
+                        }
+                ],
+                "detail": "These companies are the most profitable, generating the highest net income over the trailing twelve months."
+        },
+        {
+                "id": 6,
+                "title": "Best 12-Month Performer",
+                "company": "Eli Lilly and Company",
+                "ticker": "LLY",
+                "value": "+120.0%",
+                "detail": "Eli Lilly and Company stock gained 120.0% over the past 12 months, the best performance among the top 20."
+        },
+        {
+                "id": 7,
+                "title": "Worst 12-Month Performer",
+                "company": "Intel Corporation",
+                "ticker": "INTC",
+                "value": "-45.0%",
+                "detail": "Intel Corporation stock declined 45.0% over the past 12 months, reflecting sector or company-specific challenges."
+        },
+        {
+                "id": 8,
+                "title": "Average Metrics (Top 100)",
+                "metrics": {
+                        "avg_market_cap": "$0.32T",
+                        "avg_revenue": "$80B",
+                        "avg_net_profit": "$12B",
+                        "avg_profit_margin": "18.9%"
+                },
+                "detail": "The average top-100 S&P 500 company has significant market cap and generates substantial annual revenue."
+        },
+        {
+                "id": 9,
+                "title": "Revenue vs Market Cap Outliers",
+                "high": {
+                        "company": "Ford Motor Company",
+                        "ticker": "F",
+                        "ratio": "4.400",
+                        "detail": "Higher ratio suggests undervaluation relative to revenue"
+                },
+                "low": {
+                        "company": "Axon Enterprise Inc.",
+                        "ticker": "AXON",
+                        "ratio": "0.026",
+                        "detail": "Lower ratio suggests premium valuation or lower revenue efficiency"
+                },
+                "detail": "Revenue-to-market-cap ratio highlights potential valuation anomalies. A higher ratio may indicate undervaluation."
+        },
+        {
+                "id": 10,
+                "title": "Total Market Value of Top 100",
+                "value": "$33.58T",
+                "detail": "The combined market capitalization of the top 100 S&P 500 companies is $33.58 trillion, representing a significant portion of the entire index's value."
         }
+];
         
-        function formatTrillions(value) {
-            return (value / 1e12).toFixed(2) + 'T';
-        }
+        function formatBillions(v) { return (v / 1e9).toFixed(1) + 'B'; }
+        function formatTrillions(v) { return (v / 1e12).toFixed(2) + 'T'; }
         
-        // Create bubble chart
         function createBubbleChart() {
             const xValues = companies.map(c => c.ttm_revenue / 1e9);
             const yValues = companies.map(c => c.ttm_net_profit / 1e9);
@@ -363,102 +1107,47 @@
             const priceChanges = companies.map(c => c.price_change_12m);
             
             const trace = {
-                x: xValues,
-                y: yValues,
-                mode: 'markers+text',
-                type: 'scatter',
-                text: companies.map(c => c.ticker),
-                textposition: 'top center',
-                textfont: {color: '#fff', size: 11, family: 'monospace'},
-                hovertemplate: 
-                    '<b>%{text}</b><br>' +
-                    '%{customdata.name}<br>' +
-                    '<br>Revenue: $%{customdata.revenue}B<br>' +
-                    'Net Profit: $%{customdata.profit}B<br>' +
-                    'Market Cap: $%{customdata.mcap}T<br>' +
-                    '12M Change: %{customdata.change}%<extra></extra>',
+                x: xValues, y: yValues, mode: 'markers+text', type: 'scatter',
+                text: companies.map(c => c.ticker), textposition: 'top center',
+                textfont: {color: '#fff', size: 10, family: 'monospace'},
+                hovertemplate: '<b>%{text}</b><br>%{customdata.name}<br><br>Revenue: $%{customdata.revenue}B<br>Net Profit: $%{customdata.profit}B<br>Market Cap: $%{customdata.mcap}T<br>12M Change: %{customdata.change}%<extra></extra>',
                 customdata: companies.map(c => ({
-                    name: c.name,
-                    revenue: (c.ttm_revenue / 1e9).toFixed(1),
+                    name: c.name, revenue: (c.ttm_revenue / 1e9).toFixed(1),
                     profit: (c.ttm_net_profit / 1e9).toFixed(1),
                     mcap: (c.market_cap / 1e12).toFixed(2),
                     change: c.price_change_12m > 0 ? '+' + c.price_change_12m.toFixed(1) : c.price_change_12m.toFixed(1)
                 })),
                 marker: {
-                    size: sizes,
-                    color: priceChanges,
-                    colorscale: [
-                        [-1, '#ff1744'],
-                        [-0.5, '#ff5252'],
-                        [-0.25, '#ff8a80'],
-                        [0, '#ffffff'],
-                        [0.25, '#a5d6a7'],
-                        [0.5, '#66bb6a'],
-                        [1, '#00c853']
-                    ],
-                    colorbar: {
-                        title: '12M Change %',
-                        titleside: 'right',
-                        titlefont: {color: '#a0a0a0', size: 12},
-                        tickfont: {color: '#a0a0a0'},
-                        len: 0.6,
-                        thickness: 20
-                    },
-                    line: {
-                        color: 'rgba(255, 255, 255, 0.5)',
-                        width: 1.5
-                    },
-                    sizemode: 'diameter',
-                    sizemin: 8,
-                    sizeref: 0.5
+                    size: sizes, color: priceChanges,
+                    colorscale: [[-1, '#ff1744'], [-0.5, '#ff5252'], [-0.25, '#ff8a80'], [0, '#ffffff'], [0.25, '#a5d6a7'], [0.5, '#66bb6a'], [1, '#00c853']],
+                    colorbar: { title: '12M Change %', titleside: 'right', titlefont: {color: '#a0a0a0', size: 12}, tickfont: {color: '#a0a0a0'}, len: 0.6, thickness: 20 },
+                    line: { color: 'rgba(255, 255, 255, 0.5)', width: 1.5 }, sizemode: 'diameter', sizemin: 8, sizeref: 0.5
                 }
             };
             
             const layout = {
-                title: {
-                    text: 'TTM Revenue vs Net Profit (Bubble Size = Market Cap)',
-                    font: {color: '#fff', size: 18}
-                },
-                xaxis: {
-                    title: {text: 'TTM Revenue ($ Billions)', font: {color: '#a0a0a0'}},
-                    type: 'log',
-                    gridcolor: 'rgba(255, 255, 255, 0.1)',
-                    tickfont: {color: '#a0a0a0'}
-                },
-                yaxis: {
-                    title: {text: 'TTM Net Profit ($ Billions)', font: {color: '#a0a0a0'}},
-                    gridcolor: 'rgba(255, 255, 255, 0.1)',
-                    tickfont: {color: '#a0a0a0'}
-                },
-                paper_bgcolor: 'rgba(0,0,0,0)',
-                plot_bgcolor: 'rgba(0,0,0,0)',
-                hovermode: 'closest',
-                margin: {l: 80, r: 100, t: 60, b: 60}
+                title: { text: 'TTM Revenue vs Net Profit (Bubble Size = Market Cap)', font: {color: '#fff', size: 18} },
+                xaxis: { title: {text: 'TTM Revenue ($ Billions)', font: {color: '#a0a0a0'}}, type: 'log', gridcolor: 'rgba(255, 255, 255, 0.1)', tickfont: {color: '#a0a0a0'} },
+                yaxis: { title: {text: 'TTM Net Profit ($ Billions)', font: {color: '#a0a0a0'}}, gridcolor: 'rgba(255, 255, 255, 0.1)', tickfont: {color: '#a0a0a0'} },
+                paper_bgcolor: 'rgba(0,0,0,0)', plot_bgcolor: 'rgba(0,0,0,0)', hovermode: 'closest', margin: {l: 80, r: 100, t: 60, b: 60}
             };
-            
             Plotly.newPlot('bubble-chart', [trace], layout, {responsive: true});
         }
         
-        // Render insights cards
         function renderInsights() {
             const grid = document.getElementById('insights-grid');
-            
             insights.forEach(insight => {
                 const card = document.createElement('div');
-                card.className = `insight-card ${insight.type}`;
-                
+                card.className = `insight-card ${insight.type || 'neutral'}`;
                 let content = `<div class="insight-number">Insight #${insight.id}</div>`;
                 content += `<div class="insight-title">${insight.title}</div>`;
-                
                 if (insight.value) {
                     const valueClass = insight.type === 'negative' ? 'negative' : '';
                     content += `<div class="insight-value ${valueClass}">${insight.value}</div>`;
                 }
-                
                 if (insight.company) {
                     content += `<div class="insight-company">${insight.company} (${insight.ticker})</div>`;
                 }
-                
                 if (insight.companies) {
                     content += '<ul class="insight-list">';
                     insight.companies.forEach(c => {
@@ -466,7 +1155,6 @@
                     });
                     content += '</ul>';
                 }
-                
                 if (insight.metrics) {
                     content += '<div class="metrics-grid">';
                     Object.entries(insight.metrics).forEach(([label, value]) => {
@@ -474,34 +1162,18 @@
                     });
                     content += '</div>';
                 }
-                
                 if (insight.high && insight.low) {
                     content += `<div class="outlier-container">
-                        <div class="outlier-box">
-                            <div class="outlier-label">High Ratio</div>
-                            <div class="outlier-company">${insight.high.company} (${insight.high.ticker})</div>
-                            <div class="outlier-ratio">${insight.high.ratio}</div>
-                        </div>
-                        <div class="outlier-box">
-                            <div class="outlier-label">Low Ratio</div>
-                            <div class="outlier-company">${insight.low.company} (${insight.low.ticker})</div>
-                            <div class="outlier-ratio">${insight.low.ratio}</div>
-                        </div>
+                        <div class="outlier-box"><div class="outlier-label">High Ratio</div><div class="outlier-company">${insight.high.company} (${insight.high.ticker})</div><div class="outlier-ratio">${insight.high.ratio}</div></div>
+                        <div class="outlier-box"><div class="outlier-label">Low Ratio</div><div class="outlier-company">${insight.low.company} (${insight.low.ticker})</div><div class="outlier-ratio">${insight.low.ratio}</div></div>
                     </div>`;
                 }
-                
                 content += `<div class="insight-detail">${insight.detail}</div>`;
-                
                 card.innerHTML = content;
                 grid.appendChild(card);
             });
         }
-        
-        // Initialize
-        document.addEventListener('DOMContentLoaded', () => {
-            createBubbleChart();
-            renderInsights();
-        });
+        document.addEventListener('DOMContentLoaded', () => { createBubbleChart(); renderInsights(); });
     </script>
 </body>
 </html>

@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Phase 2: Analysis of S&P 500 Top 20 Data
+Phase 2: Analysis of S&P 500 Top 100 Data
 Extracts 10 key data-driven insights
 """
 
@@ -9,7 +9,7 @@ from collections import defaultdict
 
 def load_data():
     """Load the fetched data from JSON."""
-    with open("/root/.openclaw/workspace/sp500-top20/data.json", "r") as f:
+    with open("/root/.openclaw/workspace/sp500-top100/data.json", "r") as f:
         return json.load(f)
 
 def calculate_profit_margin(revenue, profit):
@@ -113,14 +113,14 @@ def analyze_data(data):
     
     insights.append({
         "id": 8,
-        "title": "Average Metrics (Top 20)",
+        "title": "Average Metrics (Top 100)",
         "metrics": {
             "avg_market_cap": f"${avg_mcap/1e12:.2f}T",
             "avg_revenue": f"${avg_rev/1e9:.0f}B",
             "avg_net_profit": f"${avg_profit/1e9:.0f}B",
             "avg_profit_margin": f"{avg_margin:.1f}%"
         },
-        "detail": "The average top-20 S&P 500 company has a market cap of $1T+ and generates over $200B in annual revenue."
+        "detail": "The average top-100 S&P 500 company has significant market cap and generates substantial annual revenue."
     })
     
     # Insight 9: Revenue vs Market Cap outliers (using revenue-to-market-cap ratio)
@@ -152,9 +152,9 @@ def analyze_data(data):
     # Insight 10: Sector distribution (simplified based on company type)
     insights.append({
         "id": 10,
-        "title": "Total Market Value of Top 20",
+        "title": "Total Market Value of Top 100",
         "value": f"${sum(c['market_cap'] for c in companies)/1e12:.2f}T",
-        "detail": f"The combined market capitalization of the top 20 S&P 500 companies is ${sum(c['market_cap'] for c in companies)/1e12:.2f} trillion, representing a significant portion of the entire index's value."
+        "detail": f"The combined market capitalization of the top 100 S&P 500 companies is ${sum(c['market_cap'] for c in companies)/1e12:.2f} trillion, representing a significant portion of the entire index's value."
     })
     
     return insights
@@ -170,7 +170,7 @@ def generate_insights_json(insights):
 def main():
     global data
     print("=" * 60)
-    print("S&P 500 Top 20 Analysis")
+    print("S&P 500 Top 100 Analysis")
     print("=" * 60)
     
     data = load_data()
@@ -189,7 +189,7 @@ def main():
     
     # Save insights
     insights_data = generate_insights_json(insights)
-    output_path = "/root/.openclaw/workspace/sp500-top20/insights.json"
+    output_path = "/root/.openclaw/workspace/sp500-top100/insights.json"
     with open(output_path, "w") as f:
         json.dump(insights_data, f, indent=2)
     
